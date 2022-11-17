@@ -24,7 +24,57 @@ import 'package:shuttlers_stories/shuttlers_stories.dart';
 No other configuration required&mdash;the package works out of the box.
 
 ## 📄 Usuage
-<!-- TODO -->
+### 1. Use the pages data to show custom widgets
+
+``` dart
+
+OutlinedButton.icon(
+        onPressed: () => StoriesView.instance.show(
+        context,
+        pages: [
+            Container(
+            color: Colors.red,
+            child: const Center(
+                child: Text("A"),
+                ),
+            ),
+            Container(
+            color: Colors.orange,
+            child: const Center(
+                child: Text("B"),
+                ),
+            ),
+            Container(
+            color: Colors.yellow,
+            child: const Center(
+                child: Text("C"),
+                ),
+            ),
+            Container(
+            color: Colors.green,
+            child: const Center(
+                child: Text("D"),
+                ),
+            ),
+            Container(
+            color: Colors.blue,
+            child: const Center(
+                child: Text("E"),
+                ),
+            ),
+        ],
+    ),å
+    icon: const Icon(Icons.pages),
+    label: const Text("Shuttlers stories"),
+);
+
+```
+
+| Image| Image|
+|------|-------|
+|<img src="ss/6.png" width="400">|<img src="ss/7.png" width="400">|
+|<img src="ss/8.png" width="400">|<img src="ss/9.png" width="400">|
+|<img src="ss/10.png" width="400">|
 
 ## 📲 Running Example project
 For help getting started with Flutter, view the online [documentation](https://flutter.io/).
