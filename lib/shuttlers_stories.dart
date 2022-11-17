@@ -1,7 +1,4 @@
 library shuttlers_stories;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/page_item.dart';
+export 'src/stories_view.dart';

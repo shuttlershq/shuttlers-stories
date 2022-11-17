@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   screenshot: ^1.2.3
   share_plus: ^4.5.3
+  shuttlers_stories:
+    path: ../
 
 dev_dependencies:
   flutter_test:
