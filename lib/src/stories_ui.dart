@@ -54,6 +54,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 PageItem(
                   context: context,
                   screenshotController: captureController,
+                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
@@ -139,6 +140,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 PageItem(
                   context: context,
                   screenshotController: captureController,
+                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Column(
@@ -188,6 +190,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 PageItem(
                   context: context,
                   screenshotController: captureController,
+                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
@@ -250,6 +253,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 PageItem(
                   context: context,
                   screenshotController: captureController,
+                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: Colors.black,
                     child: Column(
@@ -306,6 +310,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 PageItem(
                   context: context,
                   screenshotController: captureController,
+                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
