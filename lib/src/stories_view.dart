@@ -8,29 +8,29 @@ class StoriesView {
 
   static final StoriesView instance = StoriesView._();
 
-  /// This method calls the UI for rating drivers
+  /// This method calls the UI for stories
   ///
-  /// * [BuildContext] - is a required parameter
+  /// [ctx] - is a required parameter
   ///
-  /// * [driverName] - this takes in the name of the driver and it is required
+  /// [data] - this is a list of page data. Must be 5 and should be used without pages
   ///
-  /// * [routeCode] - this is the route code and this is required
+  /// [pages] - this is the list of pages to be displayed and should be used without data
   ///
-  /// * [image] - this is the image of the driver and it is optional
-  ///
-  /// * [vehicleType] - this is the vehicle type is is required
-  ///
-  /// * [plateNumber] - this is the plate number of the vehicle and it is required
+  /// [data.length == 5] ^ [pages.isNotEmpty] gives the rendering condition
   ///
   ///
   void show(
     BuildContext ctx, {
     List<PageData> data = const [],
+    List<Widget> pages = const [],
   }) {
     Navigator.push(
       ctx,
       MaterialPageRoute(
-        builder: (_) => ShutStoryView(pages: data),
+        builder: (_) => ShutStoryView(
+          pages: data,
+          storyWidgets: pages,
+        ),
       ),
     );
   }
