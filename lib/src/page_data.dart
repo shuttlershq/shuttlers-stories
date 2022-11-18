@@ -4,7 +4,7 @@ class PageData {
   PageData({
     required this.title,
     this.subTitle,
-    required this.image,
+    required this.imagePath,
     this.backgroundColor,
     this.duration = const Duration(seconds: 5),
     this.isShown = false,
@@ -12,7 +12,7 @@ class PageData {
 
   String title;
   String? subTitle;
-  String image;
+  String imagePath;
   Color? backgroundColor;
   Duration duration;
   bool isShown;
