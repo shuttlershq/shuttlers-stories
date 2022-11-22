@@ -113,7 +113,8 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                               left:
                                   65 * MediaQuery.of(context).size.width / 414),
                           child: Image(
-                            image: const AssetImage("assets/1.png"),
+                            image: const AssetImage("assets/1.png",
+                                package: "shuttlers_stories"),
                             height:
                                 233 * MediaQuery.of(context).size.height / 896,
                           ),
@@ -160,7 +161,8 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                                     896),
                             Center(
                               child: Image(
-                                image: const AssetImage("assets/2.png"),
+                                image: const AssetImage("assets/2.png",
+                                    package: "shuttlers_stories"),
                                 height: 340 *
                                     MediaQuery.of(context).size.height /
                                     896,
@@ -222,7 +224,8 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                               left:
                                   65 * MediaQuery.of(context).size.width / 414),
                           child: Image(
-                            image: const AssetImage("assets/3.png"),
+                            image: const AssetImage("assets/3.png",
+                                package: "shuttlers_stories"),
                             height:
                                 364 * MediaQuery.of(context).size.height / 896,
                           ),
@@ -280,7 +283,8 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 38),
                         child: Image(
-                          image: const AssetImage("assets/4.png"),
+                          image: const AssetImage("assets/4.png",
+                              package: "shuttlers_stories"),
                           height:
                               112 * MediaQuery.of(context).size.height / 896,
                         ),
@@ -341,7 +345,8 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                                   MediaQuery.of(context).size.height /
                                   896),
                           Image(
-                            image: const AssetImage("assets/5.png"),
+                            image: const AssetImage("assets/5.png",
+                                package: "shuttlers_stories"),
                             height:
                                 256 * MediaQuery.of(context).size.height / 896,
                           )
