@@ -14,6 +14,8 @@ class StoriesView {
   ///
   /// [data] - this is a list of page data. Must be 5 and should be used without pages
   ///
+  /// [types] - this is a list of StoryType used to get the shareable text. This should be in order of appearance
+  ///
   /// [pages] - this is the list of pages to be displayed and should be used without data
   ///
   /// [data.length == 5] ^ [pages.isNotEmpty] gives the rendering condition
@@ -23,6 +25,7 @@ class StoriesView {
     BuildContext ctx, {
     List<PageData> data = const [],
     List<Widget> pages = const [],
+    List<StoryType> types = StoryType.values,
   }) {
     Navigator.push(
       ctx,
@@ -30,6 +33,7 @@ class StoriesView {
         builder: (_) => ShutStoryView(
           pages: data,
           storyWidgets: pages,
+          types: types,
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:screenshot/screenshot.dart';
 
 class PageItem implements StoryItem {
   PageItem({
+    this.key,
     required this.context,
     required this.screenshotController,
     required this.body,
@@ -15,6 +16,7 @@ class PageItem implements StoryItem {
   Duration displayDuration;
   bool isShown;
   ScreenshotController screenshotController;
+  Key? key;
 
   @override
   bool shown = false;
@@ -24,6 +26,7 @@ class PageItem implements StoryItem {
 
   @override
   Widget get view => Screenshot(
+        key: key,
         controller: screenshotController,
         child: body,
       );

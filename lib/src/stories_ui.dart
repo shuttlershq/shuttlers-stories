@@ -11,12 +11,18 @@ import 'page_item.dart';
 import 'package:path_provider/path_provider.dart';
 
 class ShutStoryView extends StatefulWidget {
-  ShutStoryView({Key? key, required this.pages, this.storyWidgets = const []})
+  ShutStoryView(
+      {Key? key,
+      required this.pages,
+      required this.types,
+      this.storyWidgets = const []})
       : assert((pages.length == 5) ^ storyWidgets.isNotEmpty),
+        assert(storyWidgets.length == types.length),
         super(key: key);
 
   final List<PageData> pages;
   final List<Widget> storyWidgets;
+  final List<StoryType> types;
 
   @override
   State<ShutStoryView> createState() => _ShutStoryViewState();
@@ -25,6 +31,7 @@ class ShutStoryView extends StatefulWidget {
 class _ShutStoryViewState extends State<ShutStoryView> {
   late ScreenshotController captureController;
   late StoryController newController;
+  int _page = 0;
 
   @override
   void initState() {
@@ -45,6 +52,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 ...widget.storyWidgets
                     .map(
                       (e) => PageItem(
+                          key: Key(widget.storyWidgets.indexOf(e).toString()),
                           context: context,
                           screenshotController: captureController,
                           body: e),
@@ -52,6 +60,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                     .toList(),
               if (widget.pages.length == 5) ...[
                 PageItem(
+                  key: const Key("1"),
                   context: context,
                   screenshotController: captureController,
                   // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
@@ -138,6 +147,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   ),
                 ),
                 PageItem(
+                  key: const Key("2"),
                   context: context,
                   screenshotController: captureController,
                   // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
@@ -188,6 +198,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   ),
                 ),
                 PageItem(
+                  key: const Key("3"),
                   context: context,
                   screenshotController: captureController,
                   // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
@@ -251,6 +262,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   ),
                 ),
                 PageItem(
+                  key: const Key("4"),
                   context: context,
                   screenshotController: captureController,
                   // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
@@ -308,6 +320,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   ),
                 ),
                 PageItem(
+                  key: const Key("5"),
                   context: context,
                   screenshotController: captureController,
                   // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
@@ -373,7 +386,12 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 ),
               ]
             ],
-            onStoryShow: (s) {},
+            onStoryShow: (s) {
+              String key = s.view.key.toString();
+              _page = int.parse(
+                  key.substring(key.indexOf("'") + 1, key.lastIndexOf("'")));
+              // setState(() {});
+            },
             onComplete: () {},
             progressPosition: ProgressPosition.top,
             repeat: true,
@@ -390,7 +408,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 onShareTap: () {
                   newController.pause();
                   captureController.capture().then((value) async {
-                    await saveAndShare(value!);
+                    await saveAndShare(value!, widget.types.elementAt(_page));
                   });
                 },
                 onCloseTap: () {
@@ -404,12 +422,12 @@ class _ShutStoryViewState extends State<ShutStoryView> {
     );
   }
 
-  Future<void> saveAndShare(Uint8List bytes) async {
+  Future<void> saveAndShare(Uint8List bytes, StoryType type) async {
     final dir = await getApplicationDocumentsDirectory();
     final image = File('${dir.path}/shuttlers.png');
     image.writeAsBytes(bytes);
 
-    await Share.shareFiles([image.path]);
+    await Share.shareFiles([image.path], text: type.copy);
   }
 }
 
