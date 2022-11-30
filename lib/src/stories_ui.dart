@@ -427,7 +427,10 @@ class _ShutStoryViewState extends State<ShutStoryView> {
     final image = File('${dir.path}/shuttlers.png');
     image.writeAsBytes(bytes);
 
-    await Share.shareFiles([image.path], text: type.copy);
+    Platform.isIOS
+        ? await Share.shareFiles([image.path])
+            .then((value) => Share.share(type.copy))
+        : await Share.shareFiles([image.path], text: type.copy);
   }
 }
 
@@ -446,10 +449,23 @@ class ProfileTile extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const CircleAvatar(
-          backgroundColor: Color(0xFF000000),
-          radius: 24,
-          child: Image(fit: BoxFit.cover, image: AssetImage("assets/shut.png")),
+        Row(
+          children: const [
+            CircleAvatar(
+              backgroundColor: Color(0xFF000000),
+              radius: 24,
+              child: Image(
+                  fit: BoxFit.cover, image: AssetImage("assets/shut.png")),
+            ),
+            SizedBox(width: 8),
+            Text(
+              "2022 Review",
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500),
+            )
+          ],
         ),
         Row(
           children: [
