@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
@@ -9,6 +8,9 @@ import 'package:story_view/story_view.dart' hide PageData;
 import 'page_data.dart';
 import 'page_item.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'package:image/image.dart' as ui;
+import 'package:flutter/services.dart' show rootBundle;
 
 class ShutStoryView extends StatefulWidget {
   ShutStoryView(
@@ -32,6 +34,9 @@ class _ShutStoryViewState extends State<ShutStoryView> {
   late ScreenshotController captureController;
   late StoryController newController;
   int _page = 0;
+  late File _watermarkedImage;
+  late File _watermarkImage;
+  late File _originalImage;
 
   @override
   void initState() {
@@ -63,7 +68,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   key: const Key("1"),
                   context: context,
                   screenshotController: captureController,
-                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
@@ -150,7 +154,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   key: const Key("2"),
                   context: context,
                   screenshotController: captureController,
-                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Column(
@@ -201,7 +204,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   key: const Key("3"),
                   context: context,
                   screenshotController: captureController,
-                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
@@ -265,7 +267,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   key: const Key("4"),
                   context: context,
                   screenshotController: captureController,
-                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: Colors.black,
                     child: Column(
@@ -323,7 +324,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                   key: const Key("5"),
                   context: context,
                   screenshotController: captureController,
-                  // TODO: STANDARDIZE BODY OF PAGE ITEM TO CUSTOM WIDGETS LEVERAGING PASSED IN PAGE DATA
                   body: Container(
                     color: const Color(0xFFFF94E6),
                     child: Stack(
@@ -405,11 +405,53 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                 right: 16,
               ),
               child: ProfileTile(
-                onShareTap: () {
+                onShareTap: () async {
                   newController.pause();
-                  captureController.capture().then((value) async {
-                    await saveAndShare(value!, widget.types.elementAt(_page));
+                  final dir = await getApplicationDocumentsDirectory();
+
+                  // SCREENSHOT IMAGE AND SAVE
+                  await captureController.capture().then((value) async {
+                    _originalImage = File('${dir.path}/shuttlers.png');
+                    _originalImage.writeAsBytes(value!);
                   });
+
+                  // WATERMARK
+
+                  final byteData = await rootBundle.load('assets/shutlogo.png');
+
+                  final file = await File(
+                          '${(await getTemporaryDirectory()).path}/shutlogo.png')
+                      .create(recursive: true);
+                  await file.writeAsBytes(byteData.buffer.asUint8List(
+                      byteData.offsetInBytes, byteData.lengthInBytes));
+
+                  _watermarkImage = file;
+
+                  ui.Image? originalImage =
+                      ui.decodeImage(_originalImage.readAsBytesSync());
+                  ui.Image? watermarkImage =
+                      ui.decodeImage(_watermarkImage.readAsBytesSync());
+
+                  // add watermark over originalImage
+                  // initialize width and height of watermark image
+                  ui.Image image = originalImage!;
+                  ui.drawImage(
+                    image,
+                    watermarkImage!,
+                    dstY: (originalImage.height * 0.05).toInt(),
+                    dstX: (originalImage.width * 0.1).toInt(),
+                  );
+
+                  // Store the watermarked image to a File
+                  List<int> wmImage = ui.encodePng(originalImage);
+
+                  _watermarkedImage = File('${dir.path}/shuttlers.png');
+                  _watermarkedImage.writeAsBytes(wmImage);
+
+                  Platform.isIOS
+                      ? await Share.shareFiles([_watermarkedImage.path])
+                      : await Share.shareFiles([_watermarkedImage.path],
+                          text: widget.types.elementAt(_page).copy);
                 },
                 onCloseTap: () {
                   Navigator.popUntil(context, (route) => route.isFirst);
@@ -420,16 +462,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
         ],
       ),
     );
-  }
-
-  Future<void> saveAndShare(Uint8List bytes, StoryType type) async {
-    final dir = await getApplicationDocumentsDirectory();
-    final image = File('${dir.path}/shuttlers.png');
-    image.writeAsBytes(bytes);
-
-    Platform.isIOS
-        ? await Share.shareFiles([image.path])
-        : await Share.shareFiles([image.path], text: type.copy);
   }
 }
 
