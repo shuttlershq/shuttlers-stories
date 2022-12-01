@@ -429,7 +429,6 @@ class _ShutStoryViewState extends State<ShutStoryView> {
 
     Platform.isIOS
         ? await Share.shareFiles([image.path])
-            .then((value) => Share.share(type.copy))
         : await Share.shareFiles([image.path], text: type.copy);
   }
 }
