@@ -439,7 +439,7 @@ class _ShutStoryViewState extends State<ShutStoryView> {
                     image,
                     watermarkImage!,
                     dstY: (originalImage.height * 0.05).toInt(),
-                    dstX: (originalImage.width * 0.1).toInt(),
+                    dstX: originalImage.width * 24 ~/ 896,
                   );
 
                   // Store the watermarked image to a File
