@@ -490,7 +490,7 @@ class ProfileTile extends StatelessWidget {
             ),
             SizedBox(width: 8),
             Text(
-              "Shuttlers Reverse",
+              "Reverse 2022",
               style: TextStyle(
                   color: Colors.white,
                   fontSize: 16,
